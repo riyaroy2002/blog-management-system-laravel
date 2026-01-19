@@ -16,10 +16,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $latestBlogs  = Post::latest()->take(3)->get();
-        $featuredBlog = Post::latest()->first();
+        $latestBlogs  = Post::latest()->where('status', 'approved')->take(3)->get();
+        $featuredBlog = Post::latest()->where('status', 'approved')->first();
         return view('frontend.index', compact('latestBlogs', 'featuredBlog'));
     }
+
 
     public function aboutUs()
     {
@@ -53,8 +54,8 @@ class HomeController extends Controller
 
     public function authors()
     {
-         $authors = User::where('role', 'author')->latest()->get();
-         return view('frontend.author', compact('authors'));
+        $authors = User::where('role', 'author')->latest()->get();
+        return view('frontend.author', compact('authors'));
     }
 
     public function comments(Request $request, $postId)
